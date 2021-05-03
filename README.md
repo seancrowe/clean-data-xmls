@@ -17,6 +17,11 @@ Download the latest release from the github page.
 
 Unzip your release, and find the clean-data-xmls.exe executable.
 
+❗It is strongly suggested to run this when all your CHILI Web App and Service is off❗
+
+Failure to do so could mean file collision and application failure. In addition, antivirus may also conflict with this application. Your other option is to copy your data XML files to another directory and utilize the *--source* and *--resource-directory* commands with *clean*.
+
+
 ### Commands
 
 **help** <br/>
