@@ -3,4 +3,5 @@ dist/
 .idea/
 package-lock.json
 *.exe
+*.zip
 skipped.json

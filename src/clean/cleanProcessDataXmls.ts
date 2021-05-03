@@ -82,13 +82,6 @@ export default async function (
 		await Promise.all(processDocumentsPromises);
 	}
 
-	// for (const processDocumentsPromiseFunction of processDocumentsPromiseFunctions) {
-	// 	const promise = processDocumentsPromiseFunction();
-	// 	processDocumentsPromises.push(promise);
-	// }
-
-	// await Promise.all(processDocumentsPromises);
-
 	let notFoundDocuments: Array<ChiliDocument> = [];
 
 	for (const chiliDocumentArray of notFoundDocumentsArray) {

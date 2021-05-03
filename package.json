@@ -1,7 +1,7 @@
 {
   "name": "clean-data-xmls",
   "version": "1.0.0",
-  "description": "",
+  "description": "Clean Data XMLs is a JavaScript command-line application designed to clean CHILI publish resource data XML files from missing entries",
   "main": "./dist/index.js",
   "files": ["./dist"],
   "scripts": {
