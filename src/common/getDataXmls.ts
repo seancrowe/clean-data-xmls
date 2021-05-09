@@ -1,7 +1,13 @@
 import directoryTree, { DirectoryTree } from "directory-tree";
+import DebugHandler from "./DebugHandler";
 
-export default function getDataXmls(source: string): Array<DirectoryTree> {
+export default function getDataXmls(
+	source: string,
+	debugHandler?: DebugHandler
+): Array<DirectoryTree> {
 	const directoryItems = directoryTree(source).children;
+
+	debugHandler?.log(directoryItems);
 
 	if (directoryItems == null) {
 		console.log("No items found at Source");
@@ -21,6 +27,8 @@ export default function getDataXmls(source: string): Array<DirectoryTree> {
 				files.push(item);
 		}
 	}
+
+	debugHandler?.log(files);
 
 	return files;
 }

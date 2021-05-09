@@ -1,15 +1,17 @@
 import { DirectoryTree } from "directory-tree";
 import fs from "fs-extra";
 import { parse, validate } from "fast-xml-parser";
+import DebugHandler from "./DebugHandler";
+import chalk from "chalk";
 
 export default function* getDataXmlAsJson(
-	files: Array<DirectoryTree>
+	files: Array<DirectoryTree>,
+	debugHandler?: DebugHandler
 ): Generator<DataJson> {
 	for (let i = 0; i < files.length; i++) {
 		const file = files[i];
 
 		const dataXmlString = fs.readFileSync(file.path, "utf8");
-
 		if (validate(dataXmlString)) {
 			const documentJson = parse(dataXmlString, {
 				ignoreAttributes: false,
@@ -17,7 +19,7 @@ export default function* getDataXmlAsJson(
 			});
 
 			const documents: Array<ChiliDocument> = documentJson.Documents.items
-				.item as Array<ChiliDocument>;
+			.item as Array<ChiliDocument>;
 
 			yield {
 				name: file.name,
@@ -25,8 +27,8 @@ export default function* getDataXmlAsJson(
 				jsonXml: documentJson,
 				documents: documents,
 			};
-		}
 	}
+}
 }
 
 export type DataJson = {

@@ -23,11 +23,18 @@ export default function (program: Command): void {
 			"Number of data XMLs to process at the same time - defaults to 10",
 			"10"
 		)
+		.option("-d --debug", "Turns on verbose debug logging")
 		.action(async (options) => {
-			const { source, resourceDirectory, output, processAmount } = ((
+			const { source, resourceDirectory, output, processAmount, debug } = ((
 				options
 			) => {
-				const { source, resourceDirectory, output, processAmount } = options;
+				const {
+					source,
+					resourceDirectory,
+					output,
+					processAmount,
+					debug,
+				} = options;
 
 				const amount = parseInt(processAmount);
 
@@ -37,6 +44,7 @@ export default function (program: Command): void {
 						resourceDirectory == null ? source : resourceDirectory,
 					output: output == null ? source : output,
 					processAmount: isNaN(amount) ? 10 : amount,
+					debug: debug == null ? false : debug == true,
 				};
 			})(options);
 
@@ -59,7 +67,8 @@ export default function (program: Command): void {
 				source,
 				resourceDirectory,
 				output,
-				processAmount
+				processAmount,
+				debug
 			);
 
 			fs.writeFileSync(
