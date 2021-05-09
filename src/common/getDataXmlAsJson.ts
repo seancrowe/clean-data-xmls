@@ -7,7 +7,7 @@ import chalk from "chalk";
 export default function* getDataXmlAsJson(
 	files: Array<DirectoryTree>,
 	debugHandler?: DebugHandler
-): Generator<DataJson> {
+): Generator<DataJson|null> {
 	for (let i = 0; i < files.length; i++) {
 		const file = files[i];
 
@@ -18,8 +18,25 @@ export default function* getDataXmlAsJson(
 				attributeNamePrefix: "",
 			});
 
-			const documents: Array<ChiliDocument> = documentJson.Documents.items
-			.item as Array<ChiliDocument>;
+			if (
+				documentJson.Documents == null ||
+				documentJson.Documents.items == null ||
+				documentJson.Documents.items.item == null ||
+				!Array.isArray(documentJson.Documents.items.item)
+			) {
+				console.log(
+					chalk.yellow("Found badly formed data XML at " + file.path)
+				);
+
+				debugHandler?.log(documentJson);
+
+				yield null;
+				continue;
+			}
+
+			const documents: Array<ChiliDocument> = getChiliDocumentArray(
+				documentJson.Documents.items.item
+			);
 
 			yield {
 				name: file.name,
@@ -27,8 +44,22 @@ export default function* getDataXmlAsJson(
 				jsonXml: documentJson,
 				documents: documents,
 			};
+		} else {
+			console.log(chalk.yellow("Invalid data XML at " + file.path));
+		}
 	}
 }
+
+function getChiliDocumentArray(
+	items: Array<Record<string, unknown>>
+): Array<ChiliDocument> {
+	if (!Array.isArray(items)) {
+		return [];
+	}
+
+	return items.filter(
+		(item) => item.name != null && item.id != null && item.relativePath != null
+	) as Array<ChiliDocument>;
 }
 
 export type DataJson = {

@@ -16,6 +16,9 @@ export default async function (
 	bar.start(files.length, 0);
 
 	for (const dataJson of dataXmlJsonGen) {
+
+		if (dataJson == null) continue;
+
 		const promise = (): Promise<Array<ChiliDocument>> => {
 			return new Promise((resolve) => {
 				const skippedFiles = writeFakeFiles(
