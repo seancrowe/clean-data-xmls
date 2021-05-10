@@ -3,19 +3,25 @@ import getDataXmls from "../common/getDataXmls";
 import getDataXmlAsJson, { ChiliDocument } from "../common/getDataXmlAsJson";
 import { SingleBar } from "cli-progress";
 import updateDataXmls from "./cleanUpdateDataXmls";
+import DebugHandler from "../common/DebugHandler";
 
 export default async function (
 	source: string,
 	resourceDirectory: string,
 	output: string,
-	batchAmount: number
+	batchAmount: number,
+	debug = false
 ): Promise<Array<ChiliDocument>> {
 	if (batchAmount < 1) {
 		batchAmount = 1;
 	}
 
-	const files = getDataXmls(source);
-	const dataXmlJsonGen = getDataXmlAsJson(files);
+	const debugHandler = new DebugHandler(debug);
+
+	console.log("Reading source directory");
+
+	const files = getDataXmls(source, debugHandler);
+	const dataXmlJsonGen = getDataXmlAsJson(files, debugHandler);
 
 	let totalDocuments = 0;
 
@@ -30,6 +36,11 @@ export default async function (
 	const notFoundDocumentsArray: Array<Array<ChiliDocument>> = [];
 
 	for (const dataJson of dataXmlJsonGen) {
+
+		readingXmlsBar.increment();
+
+		if (dataJson == null) continue;
+
 		totalDocuments += dataJson.documents.length;
 
 		const promise = () => {
@@ -53,8 +64,6 @@ export default async function (
 		};
 
 		processDocumentsPromiseFunctions.push(promise);
-
-		readingXmlsBar.increment();
 	}
 
 	readingXmlsBar.stop();
