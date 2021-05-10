@@ -18,6 +18,8 @@ export default async function (
 
 	const debugHandler = new DebugHandler(debug);
 
+	console.log("Reading source directory");
+
 	const files = getDataXmls(source, debugHandler);
 	const dataXmlJsonGen = getDataXmlAsJson(files, debugHandler);
 
