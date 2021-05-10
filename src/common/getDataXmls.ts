@@ -17,8 +17,12 @@ export default function getDataXmls(
 	const directories = [];
 	const files = [];
 
+	debugHandler?.log(directoryItems.length);
+
 	for (let i = 0; i < directoryItems.length; i++) {
 		const item = directoryItems[i];
+
+		debugHandler?.log(i);
 
 		if (item.type === "directory") {
 			directories.push(item);
