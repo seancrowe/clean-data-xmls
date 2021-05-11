@@ -53,15 +53,21 @@ export default function (program: Command): void {
 				return;
 			}
 
+			console.log("Source found at " + source);
+
 			if (!fs.existsSync(resourceDirectory)) {
-				console.log(chalk.red("Files Directory does not exist"));
+				console.log(chalk.red("Resource Directory does not exist"));
 				return;
 			}
+
+			console.log("Resource Directory found at " + resourceDirectory);
 
 			if (!fs.existsSync(output)) {
 				console.log(chalk.red("Output does not exist"));
 				return;
 			}
+
+			console.log("Out at " + output);
 
 			const notFoundDocuments = await processDataXmls(
 				source,
