@@ -69,12 +69,12 @@ export default function getDirectoryTree(
 		const dirData = safeReadDirSync(path);
 
 		const children =
-			(level >= 0)
+			level >= 0
 				? dirData
 						.map((child) =>
 							getDirectoryTree(
 								PATH.join(path, child),
-								level - 1,
+								level,
 								onEachFile,
 								onEachDirectory
 							)
@@ -85,7 +85,7 @@ export default function getDirectoryTree(
 			children != null
 				? children.reduce((prev, cur) => prev + cur?.size, 0)
 				: 0;
-		const type = DirectoryType.file;
+		const type = DirectoryType.directory;
 
 		const item = {
 			name,
