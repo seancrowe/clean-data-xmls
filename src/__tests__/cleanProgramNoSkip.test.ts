@@ -2,7 +2,7 @@ import "jest";
 import fs from "fs-extra";
 import processDataXmlsFake from "../fake/fakeProcessDataXmls";
 import processDataXmlsClean from "../clean/cleanProcessDataXmls";
-import directoryTree from "directory-tree";
+import directoryTree from "../common/getDirectoryTree";
 import { parse, validate } from "fast-xml-parser";
 
 const testData = __dirname + "/test_files/data";
