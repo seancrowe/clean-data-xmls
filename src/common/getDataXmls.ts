@@ -1,11 +1,11 @@
-import directoryTree, { DirectoryTree } from "directory-tree";
 import DebugHandler from "./DebugHandler";
+import getDirectoryTree, { DirectoryItem } from "./getDirectoryTree";
 
 export default function getDataXmls(
 	source: string,
 	debugHandler?: DebugHandler
-): Array<DirectoryTree> {
-	const directoryItems = directoryTree(source).children;
+): Array<DirectoryItem> {
+	const directoryItems = getDirectoryTree(source)?.children;
 
 	debugHandler?.log(directoryItems);
 
