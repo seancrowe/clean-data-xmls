@@ -1,10 +1,32 @@
 # Changelog
 
+<a name="1.1.0"></a>
+## 1.1.0 (2021-05-13)
+
+### Added
+
+- ✨ test command for testing after a clean [[33a05d8](https://github.com/seancrowe/clean-data-xmls/commit/33a05d8290fd5a7c131a43e2d97b95a83087c94d)]
+
+### Changed
+
+- 🏗️ Move declared types and enums into single file [[9bf1fc3](https://github.com/seancrowe/clean-data-xmls/commit/9bf1fc387d0012f6e0404cf8a3531ccdd691234a)]
+
+### Fixed
+
+- ✏️ Fixed version in program to match package [[b317587](https://github.com/seancrowe/clean-data-xmls/commit/b3175873a1dff09065365cb273d58507bcd0e998)]
+
+### Miscellaneous
+
+-  Merge branch &#x27;feature/test-documentsNotFound&#x27; [[3ae691b](https://github.com/seancrowe/clean-data-xmls/commit/3ae691bff90da21cea381c7b0cffa0de18c96479)]
+- 📝 Update readme with test command and warnings [[84fa42a](https://github.com/seancrowe/clean-data-xmls/commit/84fa42a880edbe531e8cf32ea7520583cc9a8d63)]
+
+
 <a name="1.0.2"></a>
 ## 1.0.2 (2021-05-13)
 
 ### Added
 
+- 🔊 updated changelog 1.0.2 [[4214720](https://github.com/seancrowe/clean-data-xmls/commit/42147201e570e46ef94cf94a28a609979410a6a4)]
 - ✅ Add test for new getStringFromFile [[c9d5720](https://github.com/seancrowe/clean-data-xmls/commit/c9d5720cf84242df467efcc8615aee2b59c2398a)]
 - ✅ Add test for getDirectoryTree and updated tests [[3defa20](https://github.com/seancrowe/clean-data-xmls/commit/3defa20ddc55bbdbdc820827281a0f4aca23cd4e)]
 
