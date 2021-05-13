@@ -36,7 +36,6 @@ export default async function (
 	const notFoundDocumentsArray: Array<Array<ChiliDocument>> = [];
 
 	for (const dataJson of dataXmlJsonGen) {
-
 		readingXmlsBar.increment();
 
 		if (dataJson == null) continue;
