@@ -4,10 +4,10 @@ import "jest";
 describe("get directory", () => {
 	const path = __dirname + "/test_files/";
 
-	test("there should be 5 DirectoryItems in /test_files with default level", async () => {
+	test("there should be 6 DirectoryItems in /test_files with default level", async () => {
 		const children = directoryTree(path).children;
 
-		expect(children?.length).toBe(5);
+		expect(children?.length).toBe(6);
 	});
 
 	test("there should be no files in /test_file with default levels", () => {
@@ -23,10 +23,10 @@ describe("get directory", () => {
 		//const children = directoryTree(testModifiedData).children
 	});
 
-	test("there should be three files in ./ with default level", async () => {
+	test("there should be four files in ./ with default level", async () => {
 		const children = directoryTree(__dirname).children;
 
-		expect(children?.filter((item) => item.type === "file").length).toBe(3);
+		expect(children?.filter((item) => item.type === "file").length).toBe(4);
 		//const children = directoryTree(testModifiedData).children
 	});
 
