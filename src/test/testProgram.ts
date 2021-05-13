@@ -42,7 +42,7 @@ export default function (program: Command): void {
 				}
 			}
 
-			fs.writeFileSync("./docum entsFound.json", JSON.stringify(filesFound));
+			fs.writeFileSync("./documentsFound.json", JSON.stringify(filesFound));
 
 			console.log("Doucments actually found: " + filesFound.length);
 		});
