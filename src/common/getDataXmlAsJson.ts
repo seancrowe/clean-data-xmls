@@ -1,4 +1,3 @@
-import fs from "fs-extra";
 import { parse, validate } from "fast-xml-parser";
 import DebugHandler from "./DebugHandler";
 import chalk from "chalk";
