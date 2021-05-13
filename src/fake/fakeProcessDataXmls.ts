@@ -1,5 +1,6 @@
 import { SingleBar } from "cli-progress";
-import getDataXmlAsJson, { ChiliDocument } from "../common/getDataXmlAsJson";
+import getDataXmlAsJson from "../common/getDataXmlAsJson";
+import { ChiliDocument } from "../common/types";
 import getDataXmls from "../common/getDataXmls";
 import writeFakeFiles from "./frakeWriteFakeFiles";
 

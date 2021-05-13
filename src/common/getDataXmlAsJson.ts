@@ -1,8 +1,9 @@
 import { parse, validate } from "fast-xml-parser";
 import DebugHandler from "./DebugHandler";
 import chalk from "chalk";
-import { DirectoryItem } from "./getDirectoryTree";
+import { DirectoryItem } from "./types";
 import getStringFromFile from "./getStringFromFile";
+import { ChiliDocument, DataJson } from "./types";
 import { useTry } from "no-try";
 
 export default function* getDataXmlAsJson(
@@ -69,16 +70,3 @@ function getChiliDocumentArray(
 		(item) => item.name != null && item.id != null && item.relativePath != null
 	) as Array<ChiliDocument>;
 }
-
-export type DataJson = {
-	name: string;
-	path: string;
-	jsonXml: Record<string, unknown>;
-	documents: Array<ChiliDocument>;
-};
-
-export type ChiliDocument = {
-	name: string;
-	id: string;
-	relativePath: string;
-};

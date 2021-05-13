@@ -1,5 +1,6 @@
 import DebugHandler from "./DebugHandler";
-import getDirectoryTree, { DirectoryItem } from "./getDirectoryTree";
+import getDirectoryTree from "./getDirectoryTree";
+import { DirectoryItem } from "./types";
 
 export default function getDataXmls(
 	source: string,

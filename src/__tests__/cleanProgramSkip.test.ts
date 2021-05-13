@@ -4,7 +4,7 @@ import processDataXmlsFake from "../fake/fakeProcessDataXmls";
 import processDataXmlsClean from "../clean/cleanProcessDataXmls";
 import directoryTree from "../common/getDirectoryTree";
 import { parse, validate } from "fast-xml-parser";
-import { ChiliDocument } from "../common/getDataXmlAsJson";
+import { ChiliDocument } from "../common/types";
 
 const testData = __dirname + "/test_files/data";
 const testFiles = __dirname + "/test_files/skip_files";

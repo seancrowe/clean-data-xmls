@@ -1,6 +1,7 @@
 import fs from "fs-extra";
 import getDataXmls from "../common/getDataXmls";
-import getDataXmlAsJson, { ChiliDocument } from "../common/getDataXmlAsJson";
+import getDataXmlAsJson from "../common/getDataXmlAsJson";
+import { ChiliDocument } from "../common/types";
 import { SingleBar } from "cli-progress";
 import updateDataXmls from "./cleanUpdateDataXmls";
 import DebugHandler from "../common/DebugHandler";

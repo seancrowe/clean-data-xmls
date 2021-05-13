@@ -1,4 +1,5 @@
-import directoryTree, { DirectoryItem } from "../common/getDirectoryTree";
+import directoryTree from "../common/getDirectoryTree";
+import  { DirectoryItem } from "../common/types";
 import "jest";
 
 describe("get directory", () => {

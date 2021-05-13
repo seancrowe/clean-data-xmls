@@ -1,5 +1,5 @@
 import * as fs from "fs-extra";
-import { ChiliDocument, DataJson } from "../common/getDataXmlAsJson";
+import { ChiliDocument, DataJson } from "../common/types";
 import { j2xParser } from "fast-xml-parser";
 import { SingleBar } from "cli-progress";
 

@@ -1,6 +1,6 @@
 import fs from "fs-extra";
 import { v4 as uuidv4 } from "uuid";
-import { ChiliDocument } from "../common/getDataXmlAsJson";
+import { ChiliDocument } from "../common/types";
 
 export default function writeFakeFiles(
 	documents: Array<ChiliDocument>,

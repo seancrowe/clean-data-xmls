@@ -1,5 +1,6 @@
 import FS from "fs";
 import PATH from "path";
+import { DirectoryItem, DirectoryType } from "./types";
 
 function safeReadDirSync(path: string): string[] {
 	let dirData = [];
@@ -11,22 +12,6 @@ function safeReadDirSync(path: string): string[] {
 	}
 	return dirData;
 }
-
-enum DirectoryType {
-	directory = "directory",
-	file = "file",
-	other = "other",
-}
-
-export type DirectoryItem = {
-	path: string;
-	name: string;
-	size: number;
-	level: number;
-	type: DirectoryType;
-	children?: Array<DirectoryItem>;
-	extension?: string;
-};
 
 export default function getDirectoryTree(
 	path: string,
