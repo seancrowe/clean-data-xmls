@@ -1,8 +1,9 @@
-import fs from "fs-extra";
 import { parse, validate } from "fast-xml-parser";
 import DebugHandler from "./DebugHandler";
 import chalk from "chalk";
 import { DirectoryItem } from "./getDirectoryTree";
+import getStringFromFile from "./getStringFromFile";
+import { useTry } from "no-try";
 
 export default function* getDataXmlAsJson(
 	files: Array<DirectoryItem>,
@@ -11,7 +12,16 @@ export default function* getDataXmlAsJson(
 	for (let i = 0; i < files.length; i++) {
 		const file = files[i];
 
-		const dataXmlString = fs.readFileSync(file.path, "utf8");
+		const [getStringFromFileError, dataXmlString] = useTry(() => {
+			return getStringFromFile(file.path);
+		});
+
+		if (getStringFromFileError != null) {
+			console.log(chalk.red("Error skipping " + file.path));
+			console.log(getStringFromFileError.message);
+			continue;
+		}
+
 		if (validate(dataXmlString)) {
 			const documentJson = parse(dataXmlString, {
 				ignoreAttributes: false,
@@ -19,9 +29,7 @@ export default function* getDataXmlAsJson(
 			});
 
 			if (
-				documentJson.Documents == null ||
-				documentJson.Documents.items == null ||
-				documentJson.Documents.items.item == null ||
+				documentJson?.Documents?.items?.item == null ||
 				!Array.isArray(documentJson.Documents.items.item)
 			) {
 				console.log(
