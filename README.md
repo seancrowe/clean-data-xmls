@@ -13,27 +13,37 @@ This is only designed for resource data XML files, and should not be used on non
 ## Usage
 The command-line application is meant to be ran on the CHILI publish server. The user running the application will need read/write permission over the CHILI publish data folder.
 
-Download the latest release from the github page.
+Download the latest release from the GitHub page.
 
 Unzip your release, and find the clean-data-xmls.exe executable.
 
-❗It is strongly suggested to run this when all your CHILI Web App and Service is off❗
 
-Failure to do so could mean file collision and application failure. In addition, antivirus may also conflict with this application. Your other option is to copy your data XML files to another directory and utilize the *--source* and *--resource-directory* commands with *clean*.
+❗It is strongly suggested running this when all your CHILI Web App and CHILI Service are off❗
 
+Failure to do so could mean file collision 💥 and application failure. In addition, antivirus may also conflict with this application. Your other option is to copy your data XML files to another directory and utilize the *--source* and *--resource-directory* commands with *clean*.
+
+<br/>
+
+Also, you should run this executable as administrator. See issue [#3](https://github.com/seancrowe/clean-data-xmls/issues/3)
 
 ### Commands
 
-**help** <br/>
+**help**
+
 At an time run the --help option command  get a detailed list of commands and options
 ```
 clean-data-xmls.exe --help
 ```
 
-**clean** <br/>
+**clean**
+
 The *clean* command is used to process a folder of data XML files with a number of options. The *clean* command requires a *--source* option argument pointing to the directory of the folder containing the data XML files.
 
-So for example, if you wanted to clean your Documents folder found on on the server path `C:\chili_data\Resources\Documents`, the command you would use is:
+Once completed, a documentsNotFound.json will be created (or overwritten) in the executable directory. That will contain a list of all documents that were not found and removed from the data XML files.
+
+<br/>
+
+So for example, if you wanted to clean your Documents folder found on the server path `C:\chili_data\Resources\Documents`, the command you would use is:
 ```
 clean-data-xmls.exe clean -s "C:\chili_data\Resources\Documents"
 ```
@@ -65,7 +75,25 @@ It is very important the output folder already exists otherwise you will receive
 
 <br/>
 
-**fake** <br/>
+**test**
+
+The _test_ command is meant to be used after _clean_ is ran to verify the item tags removed in the data XML files were indeed missing. It will print the number of documents not found by reading the documentsNotFound.json and then print the number of documents it did find that were supposedly not found.
+
+It will create a documentsFound.json containing all documents that do exist in the documentsNotFound.json file.
+
+<br/>
+
+Below is a table of options for the _test_ command
+
+| Options | Flag | Required | Description |
+| ----------- | ----------- | ----------- | ----------- |
+|resource directory| -r --resource-directory| Yes | Source of the resource files for the data XMLs|
+
+
+<br/>
+
+**fake**
+
 The *fake* command is meant to be used of testing. This command will take the data XML files at the required *--source* argument and create a folder/file structure from the XMLs in the required *--output* argument.
 
 You can also include the *--skip-files* argument to replicate missing files.
@@ -87,6 +115,25 @@ clean-data-xmls.exe fake -s "C:\chili_data\Resources\Documents" -o "C:\chili_dat
 ```
 <br/>
 
+## Warnings
+### Testing
+If you are testing this application, it is important to know that searching for documents in the BackOffice or using API calls like ResourceSearchPagedWithSorting and ResourceSearch will cause CHILI to **recreate** the missing items.
+
+Instead, you should either go to the location physically on the server or in the BackOffice navigate to the specific folder.
+
+There is a new _test_ command which you can use to verify the files do not exist.
+
+<br/>
+
+### File Encoding
+Currently Clean Data XMLs only supports UTF-8, UTF-16 LE, and UCS-2 LE.
+
+Other encoding formats will not be supported at the moment, but could be with the library iconv-lite to convert the encoding to UTF-8. This was tested, but would require extra development to normalize names.
+
+### Old Windows Servers
+This application uses Node v14, but this version of Node refuses to run on older Windows servers. You can get this to run on any Windows server by setting an environment variable NODE_SKIP_PLATFORM_CHECK to 1.
+
+This exe is tested on Windows 2008 R2 with each build, which is the oldest version of Windows server CHILI supported over the last 4 years.
 ## Build
 This project uses [Nexe](https://github.com/nexe/nexe) to compile Node 14 into a command-line application.
 
