@@ -26,23 +26,23 @@ describe("modify data XMLs by calling processDataXml no skips", () => {
 		await processDataXmlsFake(testData, testFiles, false);
 	});
 
-	let documentsNotFound = [];
+	let itemsNotFound = [];
 
 	test("create modified data XMLs ", async () => {
-		documentsNotFound = await processDataXmlsClean(
+		itemsNotFound = await processDataXmlsClean(
 			testData,
 			testFiles,
 			testModifiedData,
 			2
 		);
-		expect(documentsNotFound).toBeDefined();
+		expect(itemsNotFound).toBeDefined();
 	});
 
-	test("there should be 3 data XML files", () => {
+	test("there should be 7 data XML files", () => {
 		const children = directoryTree(testModifiedData).children;
 
 		expect(children).not.toBeNull();
-		expect(children?.length).toBe(4);
+		expect(children?.length).toBe(7);
 	});
 
 	test("new XMLs should be valid XML", async () => {
@@ -72,15 +72,23 @@ describe("modify data XMLs by calling processDataXml no skips", () => {
 		}
 
 		for (let index = 0; index < childrenOriginal.length; index++) {
-			const directoryChildOriginal = childrenOriginal[index];
-			const directoryChildModified = childrenModified[index];
+			const originalDirectoryItem = childrenOriginal[index];
+
+			const sameModifiedDirecyItem = childrenModified.find(
+				(dirItem) => dirItem.name == originalDirectoryItem.name
+			);
+
+			if (sameModifiedDirecyItem == null) {
+				expect(sameModifiedDirecyItem).toBeDefined();
+				return;
+			}
 
 			const dataXmlJsonOrg = parse(
-				fs.readFileSync(directoryChildOriginal.path, "utf8"),
+				fs.readFileSync(originalDirectoryItem.path, "utf8"),
 				parseConfig
 			);
 			const dataXmlJsonMod = parse(
-				fs.readFileSync(directoryChildModified.path, "utf8"),
+				fs.readFileSync(sameModifiedDirecyItem.path, "utf8"),
 				parseConfig
 			);
 

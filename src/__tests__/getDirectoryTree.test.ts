@@ -1,5 +1,5 @@
 import directoryTree from "../common/getDirectoryTree";
-import  { DirectoryItem } from "../common/types";
+import { DirectoryItem } from "../common/types";
 import "jest";
 
 describe("get directory", () => {
@@ -17,10 +17,10 @@ describe("get directory", () => {
 		expect(children?.filter((item) => item.type === "file").length).toBe(0);
 	});
 
-	test("there should be four files in /test_files/data with default level", async () => {
+	test("there should be 7 files in /test_files/data with default level", async () => {
 		const children = directoryTree(path + "/data").children;
 
-		expect(children?.filter((item) => item.type === "file").length).toBe(4);
+		expect(children?.filter((item) => item.type === "file").length).toBe(7);
 		//const children = directoryTree(testModifiedData).children
 	});
 
