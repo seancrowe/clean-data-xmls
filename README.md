@@ -117,9 +117,11 @@ clean-data-xmls.exe fake -s "C:\chili_data\Resources\Documents" -o "C:\chili_dat
 
 ## Warnings
 ### Testing
-If you are testing this application, it is important to know that searching for items in the BackOffice or using API calls like ResourceSearchPagedWithSorting and ResourceSearch will cause CHILI to **recreate** the missing items.
+If you are testing this application, it is important to know that searching for documents in the BackOffice or using API calls like ResourceSearchPagedWithSorting and ResourceSearch will cause CHILI to **recreate** the missing items.
 
-Therefore, if you are using the *--output* option and are not modifying the original data XML files. When you go to search through your created itemsNotFound.json in the BackOffice, you will cause CHILI to read the original data XMLs, see the file is missing
+Therefore, if you are using the *--output* option and are not modifying the original data XML files. When you go to search through your created itemsNotFound.json in the BackOffice, you will cause CHILI to read the original data XMLs, see the file is missing, and create a blank document.
+
+(I know this is true of Docuemnts and it is not true for Assets. I did not test other resources.)
 
 Instead, you should either go to the location physically on the server or in the BackOffice navigate to the specific folder.
 
