@@ -1,5 +1,25 @@
 # Changelog
 
+<a name="1.2.0"></a>
+## 1.2.0 (2021-05-14)
+
+### Added
+
+- ✅ Add test cases for other resources [[7faff0b](https://github.com/seancrowe/clean-data-xmls/commit/7faff0b84ca4b872220e248ac8bbb94069520583)]
+- ✅ Update tests to support change from document [[d530551](https://github.com/seancrowe/clean-data-xmls/commit/d530551829c4c03ca0d2a7c2ece4cb9835b9b098)]
+- ✨ Add support for all resource file types [[5acc1db](https://github.com/seancrowe/clean-data-xmls/commit/5acc1db5289627dfacb1b10fd7a0b7de7af5b58c)]
+
+### Changed
+
+- 💬 Updated all variables and text from doc to item [[8c02df6](https://github.com/seancrowe/clean-data-xmls/commit/8c02df61a9880de004ff635f23f3cf42c2a7663f)]
+
+### Miscellaneous
+
+- 📝 Update readme with clarification on testing [[7a50b33](https://github.com/seancrowe/clean-data-xmls/commit/7a50b33ecd9c7552a585bf8035dbfca76893beda)]
+- 📝 Update readme to support item over document [[b52ceee](https://github.com/seancrowe/clean-data-xmls/commit/b52ceee81b551d05d100ab8f1a2773e456aae2ec)]
+-  🩹 Fix output for test command documentsFound.json [[4c3ba9e](https://github.com/seancrowe/clean-data-xmls/commit/4c3ba9e41da028ec3aede869781175315cf2cb83)]
+
+
 <a name="1.1.0"></a>
 ## 1.1.0 (2021-05-13)
 

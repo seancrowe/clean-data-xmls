@@ -4,7 +4,7 @@ import processDataXmlsFake from "../fake/fakeProcessDataXmls";
 import processDataXmlsClean from "../clean/cleanProcessDataXmls";
 import directoryTree from "../common/getDirectoryTree";
 import { parse, validate } from "fast-xml-parser";
-import { ChiliDocument } from "../common/types";
+import { ChiliItem } from "../common/types";
 
 const testData = __dirname + "/test_files/data";
 const testFiles = __dirname + "/test_files/skip_files";
@@ -20,40 +20,41 @@ afterAll(() => {
 });
 
 describe("modify data XMLs by calling processDataXml with skips", () => {
-	let skippedDocuments: Array<ChiliDocument> = [];
-	let documentsNotFound: Array<ChiliDocument> = [];
+	let skippeditems: Array<ChiliItem> = [];
+	let itemsNotFound: Array<ChiliItem> = [];
 
 	beforeAll(async () => {
 		fs.emptydirSync(testFiles);
 		fs.emptydirSync(testModifiedData);
 
-		skippedDocuments = await processDataXmlsFake(testData, testFiles, true);
+		skippeditems = await processDataXmlsFake(testData, testFiles, true);
 
-		console.log("Skipped " + skippedDocuments.length + " documents");
+		console.log("Skipped " + skippeditems.length + " items");
 	});
 
 	test("create modified data XMLs ", async () => {
-		documentsNotFound = await processDataXmlsClean(
+		itemsNotFound = await processDataXmlsClean(
 			testData,
 			testFiles,
 			testModifiedData,
 			2
 		);
-		expect(documentsNotFound).toBeDefined();
+		expect(itemsNotFound).toBeDefined();
 	});
 
-	test("there should be 3 data XML files", () => {
+	test("there should be 7 modified data XML files", () => {
 		const children = directoryTree(testModifiedData).children;
 
 		expect(children).not.toBeNull();
-		expect(children?.length).toBe(4);
+		expect(children?.length).toBe(7);
 	});
 
 	test("new XMLs should be valid XML", async () => {
 		const children = directoryTree(testModifiedData).children;
 
-		if (children == null) {
+		if (children == null || children?.length == 0) {
 			expect(children).toBeDefined();
+			expect(children?.length).toBeGreaterThan(0);
 			return;
 		}
 
@@ -92,10 +93,10 @@ describe("modify data XMLs by calling processDataXml with skips", () => {
 		}
 	});
 
-	let documentListOriginal: Array<ChiliDocument> = [];
-	let documentListModified: Array<ChiliDocument> = [];
+	let itemListOriginal: Array<ChiliItem> = [];
+	let itemListModified: Array<ChiliItem> = [];
 
-	test("number of documents in data XML should equal number in modified + skipped", () => {
+	test("number of items in data XML should equal number in modified + skipped", () => {
 		const childrenModified = directoryTree(testModifiedData).children;
 		const childrenOriginal = directoryTree(testData).children;
 
@@ -110,8 +111,9 @@ describe("modify data XMLs by calling processDataXml with skips", () => {
 				fs.readFileSync(directoryChildOriginal.path, "utf8"),
 				parseConfig
 			);
-			documentListOriginal = documentListOriginal.concat(
-				dataXmlJson.Documents.items.item as Array<ChiliDocument>
+
+			itemListOriginal = itemListOriginal.concat(
+				dataXmlJson[Object.keys(dataXmlJson)[0]].items.item as Array<ChiliItem>
 			);
 		}
 
@@ -120,53 +122,51 @@ describe("modify data XMLs by calling processDataXml with skips", () => {
 				fs.readFileSync(directoryChildModified.path, "utf8"),
 				parseConfig
 			);
-			documentListModified = documentListModified.concat(
-				dataXmlJson.Documents.items.item as Array<ChiliDocument>
+			itemListModified = itemListModified.concat(
+				dataXmlJson[Object.keys(dataXmlJson)[0]].items.item as Array<ChiliItem>
 			);
 		}
 
-		expect(documentListOriginal.length).toEqual(
-			documentListModified.length + skippedDocuments.length
+		expect(itemListOriginal.length).toEqual(
+			itemListModified.length + skippeditems.length
 		);
 	});
 
 	test("original data XMLs are the same as modified XMLs when skipped are added", () => {
-		const documentListModifiedPlus = documentListModified.concat(
-			skippedDocuments
-		);
+		const itemListModifiedPlus = itemListModified.concat(skippeditems);
 
-		const documentIds: Array<string> = [];
+		const itemIds: Array<string> = [];
 
-		for (const document of documentListOriginal) {
-			documentIds.push(document.id);
+		for (const item of itemListOriginal) {
+			itemIds.push(item.id);
 		}
 
-		for (const document of documentListModifiedPlus) {
-			const index = documentIds.findIndex((id) => id === document.id);
-			documentIds.splice(index, 1);
+		for (const item of itemListModifiedPlus) {
+			const index = itemIds.findIndex((id) => id === item.id);
+			itemIds.splice(index, 1);
 		}
 
-		expect(documentIds.length).toBe(0);
+		expect(itemIds.length).toBe(0);
 	});
 
-	test("documents not found same as documents skipped", () => {
-		const documentIds: Array<string> = [];
+	test("items not found same as items skipped", () => {
+		const itemIds: Array<string> = [];
 
-		for (const document of documentsNotFound) {
-			documentIds.push(document.id);
+		for (const item of itemsNotFound) {
+			itemIds.push(item.id);
 		}
 
-		for (const document of skippedDocuments) {
-			const index = documentIds.findIndex((id) => id === document.id);
-			documentIds.splice(index, 1);
+		for (const item of skippeditems) {
+			const index = itemIds.findIndex((id) => id === item.id);
+			itemIds.splice(index, 1);
 		}
 
-		expect(documentIds.length).toBe(0);
+		expect(itemIds.length).toBe(0);
 	});
 
-	test("documents skipped are missing", () => {
-		for (const skippedDocument of skippedDocuments) {
-			const path = testFiles + "\\" + skippedDocument.relativePath;
+	test("items skipped are missing", () => {
+		for (const skippeditem of skippeditems) {
+			const path = testFiles + "\\" + skippeditem.relativePath;
 
 			if (fs.existsSync(path) == true) {
 				console.log("hio");
@@ -176,9 +176,9 @@ describe("modify data XMLs by calling processDataXml with skips", () => {
 		}
 	});
 
-	test("documents not skipped are there", () => {
-		for (const document of documentListModified) {
-			const path = testFiles + "\\" + document.relativePath;
+	test("items not skipped are there", () => {
+		for (const item of itemListModified) {
+			const path = testFiles + "\\" + item.relativePath;
 
 			expect(fs.existsSync(path)).toBe(true);
 		}

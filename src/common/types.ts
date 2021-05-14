@@ -1,4 +1,4 @@
-export type ChiliDocument = {
+export type ChiliItem = {
 	name: string;
 	id: string;
 	relativePath: string;
@@ -8,7 +8,8 @@ export type DataJson = {
 	name: string;
 	path: string;
 	jsonXml: Record<string, unknown>;
-	documents: Array<ChiliDocument>;
+	chiliType: string;
+	chiliItems: Array<ChiliItem>;
 };
 
 export type DirectoryItem = {

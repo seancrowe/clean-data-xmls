@@ -1,11 +1,11 @@
 import { Command } from "commander";
 import fs from "fs-extra";
-import { ChiliDocument } from "../common/types";
+import { ChiliItem } from "../common/types";
 
 export default function (program: Command): void {
 	program
 		.command("test []")
-		.description("test documentsNotFound.json")
+		.description("test itemsNotFound.json")
 		.requiredOption(
 			"-r --resource-directory <resource>",
 			"Source of the resource files for the data XMLs"
@@ -13,8 +13,8 @@ export default function (program: Command): void {
 		.action(async (options) => {
 			const { resourceDirectory } = options;
 
-			if (!fs.existsSync("./documentsNotFound.json")) {
-				console.log("No documentsNotFound.json file found");
+			if (!fs.existsSync("./itemsNotFound.json")) {
+				console.log("No itemsNotFound.json file found");
 				return;
 			}
 
@@ -23,27 +23,27 @@ export default function (program: Command): void {
 				return;
 			}
 
-			const file = fs.readFileSync("./documentsNotFound.json", "utf8");
+			const file = fs.readFileSync("./itemsNotFound.json", "utf8");
 
-			const documentsNotFoundArray = JSON.parse(file);
+			const itemsNotFoundArray = JSON.parse(file);
 
-			if (!Array.isArray(documentsNotFoundArray)) {
-				console.log("documentsNotFound.json in unexpected format");
+			if (!Array.isArray(itemsNotFoundArray)) {
+				console.log("itemsNotFound.json in unexpected format");
 				return;
 			}
 
-			console.log("Documents not found: " + documentsNotFoundArray.length);
+			console.log("Items not found: " + itemsNotFoundArray.length);
 
-			const filesFound: ChiliDocument[] = [];
+			const filesFound: ChiliItem[] = [];
 
-			for (const document of <Array<ChiliDocument>>documentsNotFoundArray) {
-				if (fs.existsSync(resourceDirectory + "//" + document.relativePath)) {
-					filesFound.push(document);
+			for (const item of <Array<ChiliItem>>itemsNotFoundArray) {
+				if (fs.existsSync(resourceDirectory + "//" + item.relativePath)) {
+					filesFound.push(item);
 				}
 			}
 
-			fs.writeFileSync("./documentsFound.json", JSON.stringify(filesFound));
+			fs.writeFileSync("./itemsFound.json", JSON.stringify(filesFound));
 
-			console.log("Doucments actually found: " + filesFound.length);
+			console.log("Items still present: " + filesFound.length);
 		});
 }

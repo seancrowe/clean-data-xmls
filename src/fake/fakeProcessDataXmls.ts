@@ -1,6 +1,6 @@
 import { SingleBar } from "cli-progress";
 import getDataXmlAsJson from "../common/getDataXmlAsJson";
-import { ChiliDocument } from "../common/types";
+import { ChiliItem } from "../common/types";
 import getDataXmls from "../common/getDataXmls";
 import writeFakeFiles from "./frakeWriteFakeFiles";
 
@@ -8,7 +8,7 @@ export default async function (
 	source: string,
 	output: string,
 	skipFiles: boolean
-): Promise<Array<ChiliDocument>> {
+): Promise<Array<ChiliItem>> {
 	const files = getDataXmls(source);
 	const dataXmlJsonGen = getDataXmlAsJson(files);
 	const processingData = [];
@@ -19,10 +19,10 @@ export default async function (
 	for (const dataJson of dataXmlJsonGen) {
 		if (dataJson == null) continue;
 
-		const promise = (): Promise<Array<ChiliDocument>> => {
+		const promise = (): Promise<Array<ChiliItem>> => {
 			return new Promise((resolve) => {
 				const skippedFiles = writeFakeFiles(
-					dataJson.documents,
+					dataJson.chiliItems,
 					output,
 					skipFiles
 				);
@@ -37,13 +37,13 @@ export default async function (
 	const skippedFilesArray = await Promise.all(processingData);
 	bar.stop();
 
-	let totalSkippedDocuments: Array<ChiliDocument> = [];
+	let totalSkippedItems: Array<ChiliItem> = [];
 
-	for (const skippedDocuments of skippedFilesArray) {
-		totalSkippedDocuments = totalSkippedDocuments.concat(
-			skippedDocuments as Array<ChiliDocument>
+	for (const skippedItems of skippedFilesArray) {
+		totalSkippedItems = totalSkippedItems.concat(
+			skippedItems as Array<ChiliItem>
 		);
 	}
 
-	return totalSkippedDocuments;
+	return totalSkippedItems;
 }

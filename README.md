@@ -39,7 +39,7 @@ clean-data-xmls.exe --help
 
 The *clean* command is used to process a folder of data XML files with a number of options. The *clean* command requires a *--source* option argument pointing to the directory of the folder containing the data XML files.
 
-Once completed, a documentsNotFound.json will be created (or overwritten) in the executable directory. That will contain a list of all documents that were not found and removed from the data XML files.
+Once completed, a itemsNotFound.json will be created (or overwritten) in the executable directory. That will contain a list of all items that were not found and removed from the data XML files.
 
 <br/>
 
@@ -77,9 +77,9 @@ It is very important the output folder already exists otherwise you will receive
 
 **test**
 
-The _test_ command is meant to be used after _clean_ is ran to verify the item tags removed in the data XML files were indeed missing. It will print the number of documents not found by reading the documentsNotFound.json and then print the number of documents it did find that were supposedly not found.
+The _test_ command is meant to be used after _clean_ is ran to verify the item tags removed in the data XML files were indeed missing. It will print the number of items not found by reading the itemsNotFound.json and then print the number of items it did find that were supposedly not found.
 
-It will create a documentsFound.json containing all documents that do exist in the documentsNotFound.json file.
+It will create a itemsFound.json containing all items that do exist in the itemsNotFound.json file.
 
 <br/>
 
@@ -119,6 +119,10 @@ clean-data-xmls.exe fake -s "C:\chili_data\Resources\Documents" -o "C:\chili_dat
 ### Testing
 If you are testing this application, it is important to know that searching for documents in the BackOffice or using API calls like ResourceSearchPagedWithSorting and ResourceSearch will cause CHILI to **recreate** the missing items.
 
+Therefore, if you are using the *--output* option and are not modifying the original data XML files. When you go to search through your created itemsNotFound.json in the BackOffice, you will cause CHILI to read the original data XMLs, see the file is missing, and create a blank document.
+
+(I know this is true of Docuemnts and it is not true for Assets. I did not test other resources.)
+
 Instead, you should either go to the location physically on the server or in the BackOffice navigate to the specific folder.
 
 There is a new _test_ command which you can use to verify the files do not exist.
@@ -129,6 +133,8 @@ There is a new _test_ command which you can use to verify the files do not exist
 Currently Clean Data XMLs only supports UTF-8, UTF-16 LE, and UCS-2 LE.
 
 Other encoding formats will not be supported at the moment, but could be with the library iconv-lite to convert the encoding to UTF-8. This was tested, but would require extra development to normalize names.
+
+<br/>
 
 ### Old Windows Servers
 This application uses Node v14, but this version of Node refuses to run on older Windows servers. You can get this to run on any Windows server by setting an environment variable NODE_SKIP_PLATFORM_CHECK to 1.

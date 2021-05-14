@@ -1,5 +1,5 @@
 import * as fs from "fs-extra";
-import { ChiliDocument, DataJson } from "../common/types";
+import { ChiliItem, DataJson } from "../common/types";
 import { j2xParser } from "fast-xml-parser";
 import { SingleBar } from "cli-progress";
 
@@ -7,17 +7,17 @@ export default function (
 	dataJson: DataJson,
 	resourceFolderPath: string,
 	progressBar?: SingleBar
-): [string, Array<ChiliDocument>] {
-	let notFoundDocuments: Array<ChiliDocument> = [];
+): [string, Array<ChiliItem>] {
+	let notFoundItems: Array<ChiliItem> = [];
 
-	for (let i = dataJson.documents.length - 1; i >= 0; i--) {
-		const document = dataJson.documents[i];
+	for (let i = dataJson.chiliItems.length - 1; i >= 0; i--) {
+		const item = dataJson.chiliItems[i];
 
-		const path = resourceFolderPath + "\\" + document.relativePath;
+		const path = resourceFolderPath + "\\" + item.relativePath;
 
 		if (!fs.existsSync(path)) {
-			const removedDocument = dataJson.documents.splice(i, 1);
-			notFoundDocuments = notFoundDocuments.concat(removedDocument);
+			const removedItem = dataJson.chiliItems.splice(i, 1);
+			notFoundItems = notFoundItems.concat(removedItem);
 		}
 
 		progressBar?.increment();
@@ -29,7 +29,9 @@ export default function (
 	});
 
 	return [
-		parser.parse({ Documents: { items: { item: dataJson.documents } } }),
-		notFoundDocuments,
+		parser.parse({
+			[dataJson.chiliType]: { items: { item: dataJson.chiliItems } },
+		}),
+		notFoundItems,
 	];
 }
