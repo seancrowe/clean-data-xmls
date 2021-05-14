@@ -69,7 +69,7 @@ export default function (program: Command): void {
 
 			console.log("Out at " + output);
 
-			const notFoundDocuments = await processDataXmls(
+			const notFoundItems = await processDataXmls(
 				source,
 				resourceDirectory,
 				output,
@@ -77,9 +77,6 @@ export default function (program: Command): void {
 				debug
 			);
 
-			fs.writeFileSync(
-				"./documentsNotFound.json",
-				JSON.stringify(notFoundDocuments)
-			);
+			fs.writeFileSync("./itemsNotFound.json", JSON.stringify(notFoundItems));
 		});
 }

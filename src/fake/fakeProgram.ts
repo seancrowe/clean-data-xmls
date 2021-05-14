@@ -23,8 +23,8 @@ export default function (program: Command): void {
 				return;
 			}
 
-			const skippedDocuments = await processDataXmls(source, output, skipFiles);
+			const skippedItems = await processDataXmls(source, output, skipFiles);
 
-			fs.writeFileSync("./skipped.json", JSON.stringify(skippedDocuments));
+			fs.writeFileSync("./skipped.json", JSON.stringify(skippedItems));
 		});
 }

@@ -5,5 +5,5 @@ package-lock.json
 *.exe
 *.zip
 skipped.json
-documentsNotFound.json
+itemsNotFound.json
 .vscode/

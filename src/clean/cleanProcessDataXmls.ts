@@ -1,7 +1,7 @@
 import fs from "fs-extra";
 import getDataXmls from "../common/getDataXmls";
 import getDataXmlAsJson from "../common/getDataXmlAsJson";
-import { ChiliDocument } from "../common/types";
+import { ChiliItem } from "../common/types";
 import { SingleBar } from "cli-progress";
 import updateDataXmls from "./cleanUpdateDataXmls";
 import DebugHandler from "../common/DebugHandler";
@@ -12,7 +12,7 @@ export default async function (
 	output: string,
 	batchAmount: number,
 	debug = false
-): Promise<Array<ChiliDocument>> {
+): Promise<Array<ChiliItem>> {
 	if (batchAmount < 1) {
 		batchAmount = 1;
 	}
@@ -24,34 +24,34 @@ export default async function (
 	const files = getDataXmls(source, debugHandler);
 	const dataXmlJsonGen = getDataXmlAsJson(files, debugHandler);
 
-	let totalDocuments = 0;
+	let totalDatas = 0;
 
-	const processDocumentsPromiseFunctions: Array<() => Promise<void>> = [];
+	const processDatasPromiseFunctions: Array<() => Promise<void>> = [];
 
-	const processDocumentsBar = new SingleBar({});
+	const processDatasBar = new SingleBar({});
 	const readingXmlsBar = new SingleBar({});
 
 	console.log("Reading data XMLs");
 	readingXmlsBar.start(files.length, 0);
 
-	const notFoundDocumentsArray: Array<Array<ChiliDocument>> = [];
+	const notFoundDatasArray: Array<Array<ChiliItem>> = [];
 
 	for (const dataJson of dataXmlJsonGen) {
 		readingXmlsBar.increment();
 
 		if (dataJson == null) continue;
 
-		totalDocuments += dataJson.documents.length;
+		totalDatas += dataJson.chiliItems.length;
 
 		const promise = () => {
 			return new Promise<void>((resolve): void => {
-				const [dataXml, notFoundDocuments] = updateDataXmls(
+				const [dataXml, notFoundDatas] = updateDataXmls(
 					dataJson,
 					resourceDirectory,
-					processDocumentsBar
+					processDatasBar
 				);
 
-				notFoundDocumentsArray.push(notFoundDocuments);
+				notFoundDatasArray.push(notFoundDatas);
 
 				const writePath = output + "\\" + dataJson.name;
 
@@ -63,42 +63,42 @@ export default async function (
 			});
 		};
 
-		processDocumentsPromiseFunctions.push(promise);
+		processDatasPromiseFunctions.push(promise);
 	}
 
 	readingXmlsBar.stop();
 	console.log("Checking item existence");
 
-	processDocumentsBar.start(totalDocuments, 0);
+	processDatasBar.start(totalDatas, 0);
 
-	const processDocumentsPromises = [];
+	const processDatasPromises = [];
 
-	while (processDocumentsPromiseFunctions.length > 0) {
-		if (processDocumentsPromises.length < batchAmount) {
-			const promiseFunction = processDocumentsPromiseFunctions.pop();
+	while (processDatasPromiseFunctions.length > 0) {
+		if (processDatasPromises.length < batchAmount) {
+			const promiseFunction = processDatasPromiseFunctions.pop();
 
 			if (promiseFunction != null) {
 				const promise = promiseFunction();
-				processDocumentsPromises.push(promise);
+				processDatasPromises.push(promise);
 			}
 		} else {
-			await Promise.all(processDocumentsPromises);
-			processDocumentsPromises.splice(0);
+			await Promise.all(processDatasPromises);
+			processDatasPromises.splice(0);
 		}
 	}
 
-	if (processDocumentsPromises.length > 0) {
-		await Promise.all(processDocumentsPromises);
+	if (processDatasPromises.length > 0) {
+		await Promise.all(processDatasPromises);
 	}
 
-	let notFoundDocuments: Array<ChiliDocument> = [];
+	let notFoundDatas: Array<ChiliItem> = [];
 
-	for (const chiliDocumentArray of notFoundDocumentsArray) {
-		notFoundDocuments = notFoundDocuments.concat(chiliDocumentArray);
+	for (const ChiliItemArray of notFoundDatasArray) {
+		notFoundDatas = notFoundDatas.concat(ChiliItemArray);
 	}
 
-	processDocumentsBar.stop();
-	console.log("Documents not found: " + notFoundDocuments.length);
+	processDatasBar.stop();
+	console.log("Datas not found: " + notFoundDatas.length);
 
-	return notFoundDocuments;
+	return notFoundDatas;
 }
