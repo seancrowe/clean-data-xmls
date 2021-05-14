@@ -3,7 +3,7 @@ import DebugHandler from "./DebugHandler";
 import chalk from "chalk";
 import { DirectoryItem } from "./types";
 import getStringFromFile from "./getStringFromFile";
-import { ChiliDocument, DataJson } from "./types";
+import { ChiliItem, DataJson } from "./types";
 import { useTry } from "no-try";
 
 export default function* getDataXmlAsJson(
@@ -24,49 +24,64 @@ export default function* getDataXmlAsJson(
 		}
 
 		if (validate(dataXmlString)) {
-			const documentJson = parse(dataXmlString, {
+			const dataJson = parse(dataXmlString, {
 				ignoreAttributes: false,
 				attributeNamePrefix: "",
 			});
 
-			if (
-				documentJson?.Documents?.items?.item == null ||
-				!Array.isArray(documentJson.Documents.items.item)
-			) {
+			const { chiliItems, chiliType } = getChiliItemAndTypeFromJson(dataJson);
+
+			if (chiliType == null || chiliItems.length == 0) {
 				console.log(
 					chalk.yellow("Found badly formed data XML at " + file.path)
 				);
 
-				debugHandler?.log(documentJson);
+				debugHandler?.log(dataJson);
 
 				yield null;
 				continue;
 			}
 
-			const documents: Array<ChiliDocument> = getChiliDocumentArray(
-				documentJson.Documents.items.item
-			);
-
 			yield {
 				name: file.name,
 				path: file.path,
-				jsonXml: documentJson,
-				documents: documents,
+				jsonXml: dataJson,
+				chiliType: chiliType,
+				chiliItems: chiliItems,
 			};
 		} else {
 			console.log(chalk.yellow("Invalid data XML at " + file.path));
+			yield null;
 		}
 	}
 }
 
-function getChiliDocumentArray(
+function getChiliItemAndTypeFromJson(dataJson: Record<string, any>) {
+	for (const topLevel in dataJson) {
+		const element = dataJson[topLevel];
+
+		if (element?.items?.item != null) {
+			return {
+				chiliItems: getOnlyChiliItemArray(element?.items?.item),
+				chiliType: topLevel,
+			};
+		}
+	}
+
+	return {
+		chiliItems: [],
+		chiliType: null,
+	};
+}
+
+function getOnlyChiliItemArray(
 	items: Array<Record<string, unknown>>
-): Array<ChiliDocument> {
+): Array<ChiliItem> {
 	if (!Array.isArray(items)) {
 		return [];
 	}
 
 	return items.filter(
 		(item) => item.name != null && item.id != null && item.relativePath != null
-	) as Array<ChiliDocument>;
+	) as Array<ChiliItem>;
 }
