@@ -1,0 +1,35 @@
+<ViewPreferences>
+	<items>
+		<item name="Viewpreferences v2" id="e11420b0-b542-452a-928f-3800a6e8d88d" hasPreviewErrors="false" relativePath="v2\Viewpreferences v2.xml" />
+		<item name="BC free design viewpreferences" id="8e368b2d-e3e7-43db-bb8b-028f91d1eabc" hasPreviewErrors="false" relativePath="v2\BC free design viewpreferences.xml" />
+		<item name="BC variable data viewpreferences" id="3f67a2cb-398a-4cb9-a0b2-080fccddbaa9" hasPreviewErrors="false" relativePath="v2\BC variable data viewpreferences.xml" />
+		<item name="Xmas card view preferences" id="598ac4f5-7b18-47a7-b249-6e472e4f7f3a" hasPreviewErrors="false" relativePath="v2\Xmas card view preferences.xml" />
+		<item name="POS viewpreferences" id="249535c7-88cb-4664-a2c3-490273658edc" hasPreviewErrors="false" relativePath="v2\POS viewpreferences.xml" />
+		<item name="Menu card viewpreferences" id="66ddf8dd-7cd3-4f2a-9ded-fb412172be2b" hasPreviewErrors="false" relativePath="v2\Menu card viewpreferences.xml" />
+		<item name="Newsletter viewpreferences" id="8e8e99cb-4340-484f-aa15-4fb56f99984a" hasPreviewErrors="false" relativePath="v2\Newsletter viewpreferences.xml" />
+		<item name="Recruitment Ad" id="51a90956-2369-4e46-b1c6-3169ee45863a" hasPreviewErrors="false" relativePath="v2\Recruitment Ad.xml" />
+		<item name="Packaging viewpreferences" id="80153f3e-3a05-4aa1-a594-28e8ffe77958" hasPreviewErrors="false" relativePath="v2\Packaging viewpreferences.xml" />
+		<item name="POS good viewpreferences" id="9fe595f7-4af4-4fa9-ad50-c50036d2e89d" hasPreviewErrors="false" relativePath="v2\POS good viewpreferences.xml" />
+		<item name="Product Brochure viewpreferences" id="2923b627-0480-4786-92bc-b6136d5cde3c" hasPreviewErrors="false" relativePath="v2\Product Brochure viewpreferences.xml" />
+		<item name="Approval viewpreferences" id="892fa425-cf81-453e-bcb5-85840b665540" hasPreviewErrors="false" relativePath="v2\Approval viewpreferences.xml" />
+		<item name="Financial Report viewpreferences" id="0c10563a-bf4f-4a14-b15b-3fdd789d653f" hasPreviewErrors="false" relativePath="v2\Financial Report viewpreferences.xml" />
+		<item name="ViewPrefs Crossdomain" id="c756f4b5-0157-4c0a-9b4e-aec5b8b16714" relativePath="v2\ViewPrefs Crossdomain.xml" hasPreviewErrors="false" />
+		<item name="QR-code" id="19cdc90b-8850-42d2-a9c8-5bd5c6107156" relativePath="v3\QR-code.xml" hasPreviewErrors="false" />
+		<item name="BC Datasource 2pages" id="25b924c8-964d-4d85-9a81-ab5d01c3a60b" relativePath="v2\BC Datasource 2pages.xml" hasPreviewErrors="false" />
+		<item name="mail merge" id="527ce3ce-f18e-4471-b0fd-0d44d3e7f7a4" relativePath="v3\mail merge.xml" hasPreviewErrors="false" />
+		<item name="binder" id="7a8663d7-c23f-47de-9e3d-c1520388d44f" relativePath="v3\binder.xml" hasPreviewErrors="false" />
+		<item name="birth card" id="e28d5931-293b-4cf8-9f84-33bccd0095d8" relativePath="v3\birth card.xml" hasPreviewErrors="false" />
+		<item name="Mailing" id="2840dcd6-cae4-4ff5-9d0a-5a1d648de1cb" relativePath="v3\Mailing.xml" hasPreviewErrors="false" />
+		<item name="2 pages" id="dcecb283-172a-45d1-a1a3-4fb102101749" relativePath="v3\2 pages.xml" hasPreviewErrors="false" />
+		<item name="cube" id="9c322de8-6efe-46d8-995d-16ba1faae893" relativePath="v3\cube.xml" hasPreviewErrors="false" />
+		<item name="Cookbook" id="8ef622e0-f633-4170-81b0-4a0f97fd3211" relativePath="v3\Cookbook.xml" hasPreviewErrors="false" />
+		<item name="Standard view prefs" id="6e5b5276-e10b-4a9b-8179-af805428dd99" relativePath="v3\Standard view prefs.xml" hasPreviewErrors="false" />
+		<item name="FBDefaultVP" id="f4329436-4625-4ad9-af11-2b2bd1f30320" relativePath="v3\FBDefaultVP.xml" hasPreviewErrors="false" />
+		<item name="mailmerge" id="ab369ea4-57a5-4442-988e-53198c0ffdcb" relativePath="v3\mailmerge.xml" hasPreviewErrors="false" />
+		<item name="XINET VP-POS" id="cce614d5-9d97-47da-aba6-ce8aa8d108f8" relativePath="v2\XINET VP-POS.xml" hasPreviewErrors="false" />
+		<item name="birthdaycard" id="bcb102f8-3cc5-492c-85fe-df8719d55787" relativePath="vphmm\birthdaycard.xml" hasPreviewErrors="false" />
+		<item name="asd" id="c27d1ff5-90cb-45e7-95fa-1a6a6f8c1222" relativePath="v2\asd.xml" />
+		<item name="Test_view" id="82c9dc50-1cd4-4514-a505-86b18575f2a9" relativePath="v2\Test_view.xml" />
+		<item name="v1" id="094ef1a2-ce6c-4756-8d0b-85590f9df2ae" relativePath="FarewellServices\v1.xml" />
+	</items>
+</ViewPreferences>
