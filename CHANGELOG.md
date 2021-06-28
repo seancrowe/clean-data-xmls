@@ -1,5 +1,14 @@
 # Changelog
 
+<a name="1.2.1"></a>
+## 1.2.1 (2021-06-28)
+
+### Fixed
+
+- 🐛 Add error handling in case XML parsing fails [[4608fae](https://github.com/seancrowe/clean-data-xmls/commit/4608faed349a1d1cc14f1877bd97b65918beb30f)]
+- ✏️ Fix output typo Datas to Items in clean process [[6e06da3](https://github.com/seancrowe/clean-data-xmls/commit/6e06da39550f09e3b2e23c95698c0094eac525cb)]
+
+
 <a name="1.2.0"></a>
 ## 1.2.0 (2021-05-14)
 
