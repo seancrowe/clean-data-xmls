@@ -98,7 +98,7 @@ export default async function (
 	}
 
 	processDatasBar.stop();
-	console.log("Datas not found: " + notFoundDatas.length);
+	console.log("Items not found: " + notFoundDatas.length);
 
 	return notFoundDatas;
 }
