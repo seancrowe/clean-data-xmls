@@ -24,10 +24,21 @@ export default function* getDataXmlAsJson(
 		}
 
 		if (validate(dataXmlString)) {
-			const dataJson = parse(dataXmlString, {
-				ignoreAttributes: false,
-				attributeNamePrefix: "",
+			const [dataJsonError, dataJson] = useTry<Record<string, unknown>>(() => {
+				return parse(dataXmlString, {
+					ignoreAttributes: false,
+					attributeNamePrefix: "",
+				});
 			});
+
+			if (dataJsonError != null) {
+				console.log(chalk.yellow("Could not parse XML at " + file.path));
+
+				debugHandler?.log(dataJsonError);
+
+				yield null;
+				continue;
+			}
 
 			const { chiliItems, chiliType } = getChiliItemAndTypeFromJson(dataJson);
 
