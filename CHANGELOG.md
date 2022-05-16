@@ -1,5 +1,17 @@
 # Changelog
 
+<a name="1.3.0"></a>
+## 1.3.0 (2022-05-16)
+
+### Fixed
+
+- ✏️ Fix typos in docs for &quot;fake&quot; command [[bdfd41d](https://github.com/seancrowe/clean-data-xmls/commit/bdfd41d2e236f5cefc4d0327cd7b7fbc3af4603d)]
+
+### Miscellaneous
+
+- 📦 Replace nexe with pkg and update README.md [[feab66e](https://github.com/seancrowe/clean-data-xmls/commit/feab66e44919f0faf79a136e2ad7afb571fed51b)]
+
+
 <a name="1.2.1"></a>
 ## 1.2.1 (2021-06-28)
 
