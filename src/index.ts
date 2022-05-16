@@ -5,7 +5,7 @@ import testProgram from "./test/testProgram";
 
 (async () => {
 	const program = new Command();
-	program.version("1.1.0", "-v -V --version");
+	program.version("1.3.0", "-v -V --version");
 
 	fakeProgram(<Command>program);
 	cleanProgram(<Command>program);
