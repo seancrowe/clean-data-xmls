@@ -94,18 +94,18 @@ Below is a table of options for the _test_ command
 
 **fake**
 
-The *fake* command is meant to be used of testing. This command will take the data XML files at the required *--source* argument and create a folder/file structure from the XMLs in the required *--output* argument.
+The *fake* command is meant to be used for testing. This command will take the data XML files at the required *--source* argument and create a folder/file structure from the XMLs in the required *--output* argument.
 
 You can also include the *--skip-files* argument to replicate missing files.
 
-Below is a table of options for the *clean* command 
+Below is a table of options for the *fake* command 
 <br/><br/>
 
 | Options | Flag | Required | Description |
-| ----------- | ----------- | ----------- | ----------- |
+| ----------- |------| ----------- | ----------- |
 | source | -s --source | Yes | Source of data XMLs |
 | output | -o --output | No | Output location of fake files |
-| process amount | -p --process-amount | No | Purposefully skip files - defaults to false |
+| process amount | --skip-files | No | Purposefully skip files - defaults to false |
 
 <br/>
 If you wanted to create a test folder of folder and files for your data XMLs, but wanted to make sure some files were missing, you can use the following command:
