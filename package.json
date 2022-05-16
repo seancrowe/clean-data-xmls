@@ -3,6 +3,7 @@
   "version": "1.2.1",
   "description": "Clean Data XMLs is a JavaScript command-line application designed to clean CHILI publish resource data XML files from missing entries",
   "main": "./dist/index.js",
+  "bin": "./dist/index.js",
   "files": [
     "./dist"
   ],
@@ -10,7 +11,7 @@
     "test": "jest",
     "test-fake": "tsc && node ./dist/index.js fake -s \"./src/__tests__/test_files/data\" -o \"./src/__tests__/test_files/files\" --skip-files",
     "test-clean": "tsc && node ./dist/index.js clean -s \"./src/__tests__/test_files/data\" -r \"./src/__tests__/test_files/files\" -o \"./src/__tests__/test_files/dataMod\" -p 2",
-    "build": "tsc && npx nexe ./dist/index.js --build --output clean-data-xmls",
+    "build": "tsc && pkg ./ --targets node14-win-x64 --compress Brotli",
     "pretty": "prettier --write ./src"
   },
   "keywords": [],
@@ -23,8 +24,8 @@
     "commander": "^7.2.0",
     "fast-xml-parser": "^3.19.0",
     "fs-extra": "^9.1.0",
-    "nexe": "^4.0.0-beta.18",
     "no-try": "^3.1.0",
+    "pkg": "^5.6.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

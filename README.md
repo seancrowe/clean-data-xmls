@@ -141,13 +141,9 @@ This application uses Node v14, but this version of Node refuses to run on older
 
 This exe is tested on Windows 2008 R2 with each build, which is the oldest version of Windows server CHILI supported over the last 4 years.
 ## Build
-This project uses [Nexe](https://github.com/nexe/nexe) to compile Node 14 into a command-line application.
+This project uses [Pkg](https://github.com/vercel/pkg) to compile Node 14 into a command-line application. It is targeted towards Windows machines as CHILI publisher runs in a Windows environment.
 
-To build this project, you need to follow the directions on [Nexe](https://github.com/nexe/nexe) to make sure you have the requirements for building Node.js. 
-
-Since most likely you will be building on Windows, the best way meet these requirements is on a fresh Windows 10 install, install VS Studio Community Edition, install Node 14 and choose yes to install requirements for building node, and then manually install [NASM](https://www.nasm.us/).
-
-Once the requirements are installed, you can then fork this project and run the following commands in order:
+You can fork this project and run the following commands in order:
 ```
 npm run install
 ```
