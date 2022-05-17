@@ -3,8 +3,10 @@ import getDataXmls from "../common/getDataXmls";
 import getDataXmlAsJson from "../common/getDataXmlAsJson";
 import { ChiliItem } from "../common/types";
 import { SingleBar } from "cli-progress";
-import updateDataXmls from "./cleanUpdateDataXmls";
 import DebugHandler from "../common/DebugHandler";
+import { Pool, spawn, Worker } from "threads";
+import { QueuedTask } from "threads/dist/master/pool-types";
+
 
 export default async function (
 	source: string,
@@ -18,6 +20,7 @@ export default async function (
 	}
 
 	const debugHandler = new DebugHandler(debug);
+	const pool = Pool(() => spawn(new Worker("./workers/updateDataXmlsWorker")), batchAmount)
 
 	console.log("Reading source directory");
 
@@ -26,7 +29,7 @@ export default async function (
 
 	let totalDatas = 0;
 
-	const processDatasPromiseFunctions: Array<() => Promise<void>> = [];
+	const queuedTasksArray: Array<() => QueuedTask<any, any>> = [];
 
 	const processDatasBar = new SingleBar({});
 	const readingXmlsBar = new SingleBar({});
@@ -44,12 +47,12 @@ export default async function (
 		totalDatas += dataJson.chiliItems.length;
 
 		const promise = () => {
-			return new Promise<void>((resolve): void => {
-				const [dataXml, notFoundDatas] = updateDataXmls(
-					dataJson,
-					resourceDirectory,
-					processDatasBar
-				);
+
+			return pool.queue(async updateDataXmlsWorker => {
+				const [dataXml, notFoundDatas] = await updateDataXmlsWorker(dataJson,
+					resourceDirectory);
+
+				processDatasBar.increment(dataJson.chiliItems.length)
 
 				notFoundDatasArray.push(notFoundDatas);
 
@@ -58,12 +61,28 @@ export default async function (
 				fs.writeFileSync(writePath, dataXml, {
 					encoding: "utf8",
 				});
-
-				resolve();
 			});
+
+			// return new Promise<void>((resolve): void => {
+			// 	const [dataXml, notFoundDatas] = updateDataXmls(
+			// 		dataJson,
+			// 		resourceDirectory,
+			// 		processDatasBar
+			// 	);
+			//
+			// 	notFoundDatasArray.push(notFoundDatas);
+			//
+			// 	const writePath = output + "\\" + dataJson.name;
+			//
+			// 	fs.writeFileSync(writePath, dataXml, {
+			// 		encoding: "utf8",
+			// 	});
+			//
+			// 	resolve();
+			// });
 		};
 
-		processDatasPromiseFunctions.push(promise);
+		queuedTasksArray.push(promise);
 	}
 
 	readingXmlsBar.stop();
@@ -73,9 +92,9 @@ export default async function (
 
 	const processDatasPromises = [];
 
-	while (processDatasPromiseFunctions.length > 0) {
+	while (queuedTasksArray.length > 0) {
 		if (processDatasPromises.length < batchAmount) {
-			const promiseFunction = processDatasPromiseFunctions.pop();
+			const promiseFunction = queuedTasksArray.pop();
 
 			if (promiseFunction != null) {
 				const promise = promiseFunction();
@@ -98,6 +117,7 @@ export default async function (
 	}
 
 	processDatasBar.stop();
+	await pool.terminate();
 	console.log("Items not found: " + notFoundDatas.length);
 
 	return notFoundDatas;

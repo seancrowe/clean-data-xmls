@@ -20,8 +20,8 @@ export default function (program: Command): void {
 		)
 		.option(
 			"-p --process-amount <number>",
-			"Number of data XMLs to process at the same time - defaults to 10",
-			"10"
+			"Number of data XMLs to process at the same time - defaults to 4",
+			"4"
 		)
 		.option("-d --debug", "Turns on verbose debug logging")
 		.action(async (options) => {
@@ -43,7 +43,7 @@ export default function (program: Command): void {
 					resourceDirectory:
 						resourceDirectory == null ? source : resourceDirectory,
 					output: output == null ? source : output,
-					processAmount: isNaN(amount) ? 10 : amount,
+					processAmount: isNaN(amount) ? 4 : amount,
 					debug: debug == null ? false : debug == true,
 				};
 			})(options);
