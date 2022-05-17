@@ -1,13 +1,11 @@
 import * as fs from "fs-extra";
 import { ChiliItem, DataJson } from "../../common/types";
 import { j2xParser } from "fast-xml-parser";
-import { SingleBar } from "cli-progress";
 import {expose} from "threads";
 
 expose (function updateDataXmlsWorker (
 	dataJson: DataJson,
-	resourceFolderPath: string,
-	progressBar?: SingleBar
+	resourceFolderPath: string
 ): [string, Array<ChiliItem>] {
 	let notFoundItems: Array<ChiliItem> = [];
 
@@ -20,8 +18,6 @@ expose (function updateDataXmlsWorker (
 			const removedItem = dataJson.chiliItems.splice(i, 1);
 			notFoundItems = notFoundItems.concat(removedItem);
 		}
-
-		progressBar?.increment();
 	}
 
 	const parser = new j2xParser({

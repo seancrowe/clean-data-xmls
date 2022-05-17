@@ -7,7 +7,6 @@ import DebugHandler from "../common/DebugHandler";
 import { Pool, spawn, Worker } from "threads";
 import { QueuedTask } from "threads/dist/master/pool-types";
 
-
 export default async function (
 	source: string,
 	resourceDirectory: string,
@@ -62,24 +61,6 @@ export default async function (
 					encoding: "utf8",
 				});
 			});
-
-			// return new Promise<void>((resolve): void => {
-			// 	const [dataXml, notFoundDatas] = updateDataXmls(
-			// 		dataJson,
-			// 		resourceDirectory,
-			// 		processDatasBar
-			// 	);
-			//
-			// 	notFoundDatasArray.push(notFoundDatas);
-			//
-			// 	const writePath = output + "\\" + dataJson.name;
-			//
-			// 	fs.writeFileSync(writePath, dataXml, {
-			// 		encoding: "utf8",
-			// 	});
-			//
-			// 	resolve();
-			// });
 		};
 
 		queuedTasksArray.push(promise);
