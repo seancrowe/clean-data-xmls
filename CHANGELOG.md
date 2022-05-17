@@ -1,7 +1,16 @@
 # Changelog
 
-<a name="1.3.0"></a>
-## 1.3.0 (2022-05-16)
+<a name="1.4.0"></a>
+## 1.4.0 (2022-05-17)
+
+### Added
+
+- ✨ Add full support for multiprocessing using worker threads [[b769a7c](https://github.com/seancrowe/clean-data-xmls/commit/b769a7c531313c2e58dee1a68210f1a625eb8c0f)]
+
+### Removed
+
+- 🔥 Remove unused code due to worker threads [[a71bce4](https://github.com/seancrowe/clean-data-xmls/commit/a71bce48eb4c8adb041728e0694fed76818002a1)]
+- 🔥 Remove old test JSON [[14915d6](https://github.com/seancrowe/clean-data-xmls/commit/14915d67915ec64432051822565d5204081acc43)]
 
 ### Fixed
 
@@ -9,6 +18,8 @@
 
 ### Miscellaneous
 
+- 📦 Add threads package [[9cf4191](https://github.com/seancrowe/clean-data-xmls/commit/9cf41918465a393dad9c3e4445af8cc75f909070)]
+- 📝 Update changelog to 1.3.0 [[b922ef8](https://github.com/seancrowe/clean-data-xmls/commit/b922ef83f39240489a0081f39dbf183d3214205e)]
 - 📦 Replace nexe with pkg and update README.md [[feab66e](https://github.com/seancrowe/clean-data-xmls/commit/feab66e44919f0faf79a136e2ad7afb571fed51b)]
 
 
