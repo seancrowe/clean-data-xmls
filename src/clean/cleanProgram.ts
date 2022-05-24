@@ -25,7 +25,7 @@ export default function (program: Command): void {
 		)
 		.option(
 			"-m --minify",
-			"Minify XMLs to avoid a bug with documents from older versions of CHILI - meant to be used on Documents"
+			"Minify XMLs to avoid a bug with documents from older versions of CHILI - meant to be used on Documents - defaults to false"
 		)
 		.option("-d --debug", "Turns on verbose debug logging")
 		.action(async (options) => {

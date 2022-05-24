@@ -58,12 +58,13 @@ This command will overwrite the data XMLs
 Below is a table of options for the *clean* command 
 <br/><br/>
 
-| Options | Flag | Required | Description                                                                                             |
-| ----------- | ----------- | ----------- |---------------------------------------------------------------------------------------------------------|
-| source | -s --source | Yes | Source of the data XMLs                                                                                 |
-|resource directory| -r --resource-directory| No | Source of the resource files for the data XMLs - defaults to --source value                             |
-| output | -o --output | No | Output directory of the data XMLs after being modified - defaults to --source value                     |
-| process amount | -p --process-amount | No | Number of data XMLs to process at the same time. Suggested value is equal to core count - defaults to 4 |
+| Options            | Flag                    | Required | Description                                                                                                                |
+|--------------------|-------------------------|----------|----------------------------------------------------------------------------------------------------------------------------|
+| source             | -s --source             | Yes      | Source of the data XMLs                                                                                                    |
+| resource directory | -r --resource-directory | No       | Source of the resource files for the data XMLs - defaults to --source value                                                |
+| output             | -o --output             | No       | Output directory of the data XMLs after being modified - defaults to --source value                                        |
+| process amount     | -p --process-amount     | No       | Number of data XMLs to process at the same time. Suggested value is equal to core count - defaults to 4                    |
+| minify             | -m --minify             | No       | Minify XMLs to avoid a bug with documents from older versions of CHILI - meant to be used on Documents - defaults to false |
 
 <br/>
 
