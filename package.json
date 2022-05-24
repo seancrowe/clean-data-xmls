@@ -24,6 +24,7 @@
     "commander": "^7.2.0",
     "fast-xml-parser": "^3.19.0",
     "fs-extra": "^9.1.0",
+    "minify-xml": "^3.4.0",
     "no-try": "^3.1.0",
     "pkg": "^5.6.0",
     "threads": "^1.7.0",
