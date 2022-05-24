@@ -7,13 +7,15 @@ import DebugHandler from "../common/DebugHandler";
 import { Pool, spawn, Worker } from "threads";
 import { QueuedTask } from "threads/dist/master/pool-types";
 
+
 export default async function (
 	source: string,
 	resourceDirectory: string,
 	output: string,
 	batchAmount: number,
+	minify: boolean,
 	debug = false
-): Promise<Array<ChiliItem>> {
+): Promise<[Array<ChiliItem>, Array<string>]> {
 	if (batchAmount < 1) {
 		batchAmount = 1;
 	}
@@ -37,6 +39,7 @@ export default async function (
 	readingXmlsBar.start(files.length, 0);
 
 	const notFoundDatasArray: Array<Array<ChiliItem>> = [];
+	const failedMinifiedDocumentsArray: Array<Array<string>> = [];
 
 	for (const dataJson of dataXmlJsonGen) {
 		readingXmlsBar.increment();
@@ -48,12 +51,13 @@ export default async function (
 		const promise = () => {
 
 			return pool.queue(async updateDataXmlsWorker => {
-				const [dataXml, notFoundDatas] = await updateDataXmlsWorker(dataJson,
-					resourceDirectory);
+				const [dataXml, notFoundDatas, failedMinifiedDocs] = await updateDataXmlsWorker(dataJson,
+					resourceDirectory, minify);
 
 				processDatasBar.increment(dataJson.chiliItems.length)
 
 				notFoundDatasArray.push(notFoundDatas);
+				failedMinifiedDocumentsArray.push(failedMinifiedDocs);
 
 				const writePath = output + "\\" + dataJson.name;
 
@@ -97,9 +101,12 @@ export default async function (
 		notFoundDatas = notFoundDatas.concat(ChiliItemArray);
 	}
 
+	const failedMinifiedDocuments = failedMinifiedDocumentsArray.reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
+
 	processDatasBar.stop();
 	await pool.terminate();
 	console.log("Items not found: " + notFoundDatas.length);
+	console.log("Documents failed to minify: " + failedMinifiedDocuments.length);
 
-	return notFoundDatas;
+	return [notFoundDatas, failedMinifiedDocuments];
 }

@@ -2,12 +2,15 @@ import * as fs from "fs-extra";
 import { ChiliItem, DataJson } from "../../common/types";
 import { j2xParser } from "fast-xml-parser";
 import {expose} from "threads";
+import { minifyXmlAtPath } from "../../common/minifyXml";
 
 expose (function updateDataXmlsWorker (
 	dataJson: DataJson,
-	resourceFolderPath: string
-): [string, Array<ChiliItem>] {
+	resourceFolderPath: string,
+	minifyXml= false
+): [string, Array<ChiliItem>, Array<string>] {
 	let notFoundItems: Array<ChiliItem> = [];
+	const failedMinifiedDocs = [];
 
 	for (let i = dataJson.chiliItems.length - 1; i >= 0; i--) {
 		const item = dataJson.chiliItems[i];
@@ -17,6 +20,13 @@ expose (function updateDataXmlsWorker (
 		if (!fs.existsSync(path)) {
 			const removedItem = dataJson.chiliItems.splice(i, 1);
 			notFoundItems = notFoundItems.concat(removedItem);
+		}
+		else{
+			if (minifyXml) {
+				if (!minifyXmlAtPath(path)) {
+					failedMinifiedDocs.push(path);
+				}
+			}
 		}
 	}
 
@@ -30,5 +40,6 @@ expose (function updateDataXmlsWorker (
 			[dataJson.chiliType]: { items: { item: dataJson.chiliItems } },
 		}),
 		notFoundItems,
+		failedMinifiedDocs
 	];
 });

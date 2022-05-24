@@ -23,9 +23,13 @@ export default function (program: Command): void {
 			"Number of data XMLs to process at the same time - defaults to 4",
 			"4"
 		)
+		.option(
+			"-m --minify",
+			"Minify XMLs to avoid a bug with documents from older versions of CHILI - meant to be used on Documents"
+		)
 		.option("-d --debug", "Turns on verbose debug logging")
 		.action(async (options) => {
-			const { source, resourceDirectory, output, processAmount, debug } = ((
+			const { source, resourceDirectory, output, processAmount, minify, debug } = ((
 				options
 			) => {
 				const {
@@ -33,6 +37,7 @@ export default function (program: Command): void {
 					resourceDirectory,
 					output,
 					processAmount,
+					minify,
 					debug,
 				} = options;
 
@@ -44,7 +49,8 @@ export default function (program: Command): void {
 						resourceDirectory == null ? source : resourceDirectory,
 					output: output == null ? source : output,
 					processAmount: isNaN(amount) ? 4 : amount,
-					debug: debug == null ? false : debug == true,
+					minify: minify != null,
+					debug: debug != null,
 				};
 			})(options);
 
@@ -69,14 +75,16 @@ export default function (program: Command): void {
 
 			console.log("Out at " + output);
 
-			const notFoundItems = await processDataXmls(
+			const [notFoundItems, failedMinifiedDocuments] = await processDataXmls(
 				source,
 				resourceDirectory,
 				output,
 				processAmount,
+				minify,
 				debug
 			);
 
 			fs.writeFileSync("./itemsNotFound.json", JSON.stringify(notFoundItems));
+			fs.writeFileSync("./failedMinifiedDocuments.json", JSON.stringify(failedMinifiedDocuments));
 		});
 }
