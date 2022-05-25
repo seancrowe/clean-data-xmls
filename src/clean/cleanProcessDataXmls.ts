@@ -4,8 +4,7 @@ import getDataXmlAsJson from "../common/getDataXmlAsJson";
 import { ChiliItem } from "../common/types";
 import { SingleBar } from "cli-progress";
 import DebugHandler from "../common/DebugHandler";
-import { Pool, spawn, Worker } from "threads";
-import { QueuedTask } from "threads/dist/master/pool-types";
+import { updateDataXmlsWorker } from "./workers/updateDataXmlsWorker";
 
 
 export default async function (
@@ -21,7 +20,6 @@ export default async function (
 	}
 
 	const debugHandler = new DebugHandler(debug);
-	const pool = Pool(() => spawn(new Worker("./workers/updateDataXmlsWorker")), batchAmount)
 
 	console.log("Reading source directory");
 
@@ -30,7 +28,7 @@ export default async function (
 
 	let totalDatas = 0;
 
-	const queuedTasksArray: Array<() => QueuedTask<any, any>> = [];
+	const processDatasPromiseFunctions: Array<() => Promise<void>> = [];
 
 	const processDatasBar = new SingleBar({});
 	const readingXmlsBar = new SingleBar({});
@@ -49,25 +47,25 @@ export default async function (
 		totalDatas += dataJson.chiliItems.length;
 
 		const promise = () => {
-
-			return pool.queue(async updateDataXmlsWorker => {
-				const [dataXml, notFoundDatas, failedMinifiedDocs] = await updateDataXmlsWorker(dataJson,
-					resourceDirectory, minify);
-
-				processDatasBar.increment(dataJson.chiliItems.length)
+			return new Promise<void>((resolve): void => {
+				const [dataXml, notFoundDatas, failedMinifiedDocs] = updateDataXmlsWorker(dataJson, resourceDirectory, minify);
 
 				notFoundDatasArray.push(notFoundDatas);
 				failedMinifiedDocumentsArray.push(failedMinifiedDocs);
+
+				processDatasBar.increment(dataJson.chiliItems.length);
 
 				const writePath = output + "\\" + dataJson.name;
 
 				fs.writeFileSync(writePath, dataXml, {
 					encoding: "utf8",
 				});
+
+				resolve();
 			});
 		};
 
-		queuedTasksArray.push(promise);
+		processDatasPromiseFunctions.push(promise);
 	}
 
 	readingXmlsBar.stop();
@@ -77,9 +75,9 @@ export default async function (
 
 	const processDatasPromises = [];
 
-	while (queuedTasksArray.length > 0) {
+	while (processDatasPromiseFunctions.length > 0) {
 		if (processDatasPromises.length < batchAmount) {
-			const promiseFunction = queuedTasksArray.pop();
+			const promiseFunction = processDatasPromiseFunctions.pop();
 
 			if (promiseFunction != null) {
 				const promise = promiseFunction();
@@ -102,9 +100,8 @@ export default async function (
 	}
 
 	const failedMinifiedDocuments = failedMinifiedDocumentsArray.reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
-
 	processDatasBar.stop();
-	await pool.terminate();
+
 	console.log("Items not found: " + notFoundDatas.length);
 	console.log("Documents failed to minify: " + failedMinifiedDocuments.length);
 

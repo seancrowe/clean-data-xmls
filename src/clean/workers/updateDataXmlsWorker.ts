@@ -1,10 +1,9 @@
 import * as fs from "fs-extra";
 import { ChiliItem, DataJson } from "../../common/types";
 import { j2xParser } from "fast-xml-parser";
-import {expose} from "threads";
 import { minifyXmlAtPath } from "../../common/minifyXml";
 
-expose (function updateDataXmlsWorker (
+export function updateDataXmlsWorker (
 	dataJson: DataJson,
 	resourceFolderPath: string,
 	minifyXml= false
@@ -42,4 +41,4 @@ expose (function updateDataXmlsWorker (
 		notFoundItems,
 		failedMinifiedDocs
 	];
-});
+}
