@@ -1,5 +1,5 @@
 import "jest";
-import fs from "fs-extra";
+import * as fs from "fs-extra";
 import processDataXmlsFake from "../fake/fakeProcessDataXmls";
 import processDataXmlsClean from "../clean/cleanProcessDataXmls";
 import directoryTree from "../common/getDirectoryTree";
@@ -33,12 +33,16 @@ describe("modify data XMLs by calling processDataXml with skips", () => {
 	});
 
 	test("create modified data XMLs ", async () => {
-		itemsNotFound = await processDataXmlsClean(
+		const [_itemsNotFound, notMinified] = await processDataXmlsClean(
 			testData,
 			testFiles,
 			testModifiedData,
-			2
+			2,
+			false
 		);
+
+		itemsNotFound = _itemsNotFound;
+
 		expect(itemsNotFound).toBeDefined();
 	});
 
